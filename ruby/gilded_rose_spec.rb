@@ -1,7 +1,6 @@
 require File.join(File.dirname(__FILE__), 'gilded_rose')
 
 describe GildedRose do
-
   describe '#update_quality with a standard item' do
     let!(:item) { Item.new('foo', 7, 5) }
     let!(:items) { [item] }

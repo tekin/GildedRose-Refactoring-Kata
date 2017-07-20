@@ -21,27 +21,31 @@ class GildedRose
   end
 
   def modify_quality(item)
-    # it's not an item that improves with age
-    if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
 
-      # it's not an item that does not age
+    # decreaes in qaulity if it's an item that decreases with age
+    if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
+      # quality is never negative
       if item.quality > 0
+        # decrease quantity unless it's sulfuras, which never ages
         if item.name != "Sulfuras, Hand of Ragnaros"
           item.quality = item.quality - 1
         end
       end
-
     else
-
       # Do not change quality beyond 50
       if item.quality < 50
+        # increase by one by default
         item.quality = item.quality + 1
+
+        # additional increases for a back stage pass
         if item.name == "Backstage passes to a TAFKAL80ETC concert"
+          # less than 11 days away
           if item.sell_in < 11
             if item.quality < 50
               item.quality = item.quality + 1
             end
           end
+          # less than 6 days away
           if item.sell_in < 6
             if item.quality < 50
               item.quality = item.quality + 1
@@ -51,7 +55,7 @@ class GildedRose
       end
     end
 
-    # Passed the sell by date
+    # Passed the sell by date: maturing items get more love; backstage gets none
     if item.sell_in < 0
       if item.name != "Aged Brie"
         if item.name != "Backstage passes to a TAFKAL80ETC concert"

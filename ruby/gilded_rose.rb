@@ -13,6 +13,8 @@ class GildedRose
         item.sell_in = item.sell_in - 1
         modify_quality(item)
       end
+
+      apply_quality_limit(item)
     end
   end
 
@@ -52,7 +54,6 @@ class GildedRose
         item.quality = item.quality + 1
       end
     end
-    apply_quality_limit(item)
   end
 
   def apply_quality_limit(item)

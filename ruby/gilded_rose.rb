@@ -7,17 +7,12 @@ class GildedRose
   def update_quality
     @items.each do |item|
       next if item.name == "Sulfuras, Hand of Ragnaros"
-
-      modify_sell_in(item)
+      item.sell_in = item.sell_in - 1
       modify_quality(item)
     end
   end
 
   private
-
-  def modify_sell_in(item)
-    item.sell_in = item.sell_in - 1
-  end
 
   def modify_quality(item)
     # decreaes in qaulity if it's an item that decreases with age

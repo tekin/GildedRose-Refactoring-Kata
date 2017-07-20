@@ -16,8 +16,6 @@ class GildedRose
       else
         DefaultRules.new(item).update
       end
-
-      apply_quality_limit(item)
     end
   end
 
@@ -31,6 +29,7 @@ class GildedRose
     def update
       decrease_sell_in
       update_quality
+      apply_quality_limit
     end
 
     def decrease_sell_in
@@ -45,6 +44,11 @@ class GildedRose
       end
     end
 
+    private
+
+    def apply_quality_limit
+      item.quality = [[50, item.quality].min, 0].max
+    end
   end
 
   class SulfurasRules < DefaultRules
@@ -75,12 +79,6 @@ class GildedRose
         end
       end
     end
-  end
-
-  private
-
-  def apply_quality_limit(item)
-    item.quality = [[50, item.quality].min, 0].max
   end
 end
 

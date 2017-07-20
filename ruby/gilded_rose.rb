@@ -29,15 +29,15 @@ class GildedRose
     end
 
     def update
-      decrease_sell_in(item)
-      update_quality(item)
+      decrease_sell_in
+      update_quality
     end
 
-    def decrease_sell_in(item)
+    def decrease_sell_in
       item.sell_in = item.sell_in - 1
     end
 
-    def update_quality(item)
+    def update_quality
       if item.sell_in < 0
         item.quality = item.quality - 2
       else
@@ -47,38 +47,20 @@ class GildedRose
 
   end
 
-  class SulfurasRules
-    attr_reader :item
-
-    def initialize(item)
-      @item = item
-    end
-
+  class SulfurasRules < DefaultRules
     def update
     end
   end
 
-  class AgedBrieRules
-    attr_reader :item
+  class AgedBrieRules < DefaultRules
 
-    def initialize(item)
-      @item = item
-    end
-
-    def update
+    def update_quality
       item.quality = item.quality + 1
-      item.sell_in = item.sell_in - 1
     end
   end
 
-  class BackStageRules
-    attr_reader :item
-    def initialize(item)
-      @item = item
-    end
-
-    def update
-      item.sell_in = item.sell_in - 1
+  class BackStageRules < DefaultRules
+    def update_quality
       if item.sell_in < 0
         item.quality = item.quality - item.quality
       else

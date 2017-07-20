@@ -10,8 +10,7 @@ class GildedRose
       when 'Sulfuras, Hand of Ragnaros'
         next
       when 'Aged Brie'
-        decrease_sell_in(item)
-        item.quality = item.quality + 1
+        AgedBrieRules.new(item).update
       when 'Backstage passes to a TAFKAL80ETC concert'
         decrease_sell_in(item)
         update_backstage_quality(item)
@@ -21,6 +20,19 @@ class GildedRose
       end
 
       apply_quality_limit(item)
+    end
+  end
+
+  class AgedBrieRules
+    attr_reader :item
+
+    def initialize(item)
+      @item = item
+    end
+
+    def update
+      item.quality = item.quality + 1
+      item.sell_in = item.sell_in - 1
     end
   end
 

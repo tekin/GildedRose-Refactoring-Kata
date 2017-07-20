@@ -31,25 +31,18 @@ class GildedRose
         end
       end
     else
-      # Do not change quality beyond 50
-      if item.quality < 50
-        # increase by one by default
-        item.quality = item.quality + 1
+      # increase by one by default
+      item.quality = item.quality + 1
 
-        # additional increases for a back stage pass
-        if item.name == "Backstage passes to a TAFKAL80ETC concert"
-          # less than 11 days away
-          if item.sell_in < 11
-            if item.quality < 50
-              item.quality = item.quality + 1
-            end
-          end
-          # less than 6 days away
-          if item.sell_in < 6
-            if item.quality < 50
-              item.quality = item.quality + 1
-            end
-          end
+      # additional increases for a back stage pass
+      if item.name == "Backstage passes to a TAFKAL80ETC concert"
+        # less than 11 days away
+        if item.sell_in < 11
+          item.quality = item.quality + 1
+        end
+        # less than 6 days away
+        if item.sell_in < 6
+          item.quality = item.quality + 1
         end
       end
     end
@@ -65,11 +58,14 @@ class GildedRose
           item.quality = item.quality - item.quality
         end
       else
-        if item.quality < 50
-          item.quality = item.quality + 1
-        end
+        item.quality = item.quality + 1
       end
     end
+    apply_quality_limit(item)
+  end
+
+  def apply_quality_limit(item)
+    item.quality = 50 if item.quality > 50
   end
 end
 

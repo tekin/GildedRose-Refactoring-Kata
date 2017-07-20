@@ -14,33 +14,18 @@ class GildedRose
         item.quality = item.quality + 1
       when 'Backstage passes to a TAFKAL80ETC concert'
         item.sell_in = item.sell_in - 1
-        # decreaes in qaulity if it's an item that decreases with age
-        if item.name != "Backstage passes to a TAFKAL80ETC concert"
-          # decrease quantity
-          item.quality = item.quality - 1
-        else
-          # increase by one by default
-          item.quality = item.quality + 1
 
-          # additional increases for a back stage pass
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            # less than 11 days away
-            if item.sell_in < 11
-              item.quality = item.quality + 1
-            end
-            # less than 6 days away
-            if item.sell_in < 6
-              item.quality = item.quality + 1
-            end
-          end
-        end
-
-        # Passed the sell by date: maturing items get more love; backstage gets none
         if item.sell_in < 0
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
-            item.quality = item.quality - 1
-          else
-            item.quality = item.quality - item.quality
+          item.quality = item.quality - item.quality
+        else
+          item.quality = item.quality + 1
+          # less than 11 days away
+          if item.sell_in < 11
+            item.quality = item.quality + 1
+          end
+          # less than 6 days away
+          if item.sell_in < 6
+            item.quality = item.quality + 1
           end
         end
       else
@@ -55,34 +40,11 @@ class GildedRose
   private
 
   def modify_quality(item)
-    # decreaes in qaulity if it's an item that decreases with age
-    if item.name != "Backstage passes to a TAFKAL80ETC concert"
-      # decrease quantity
-      item.quality = item.quality - 1
-    else
-      # increase by one by default
-      item.quality = item.quality + 1
+    # decrease quantity
+    item.quality = item.quality - 1
 
-      # additional increases for a back stage pass
-      if item.name == "Backstage passes to a TAFKAL80ETC concert"
-        # less than 11 days away
-        if item.sell_in < 11
-          item.quality = item.quality + 1
-        end
-        # less than 6 days away
-        if item.sell_in < 6
-          item.quality = item.quality + 1
-        end
-      end
-    end
-
-    # Passed the sell by date: maturing items get more love; backstage gets none
     if item.sell_in < 0
-      if item.name != "Backstage passes to a TAFKAL80ETC concert"
-        item.quality = item.quality - 1
-      else
-        item.quality = item.quality - item.quality
-      end
+      item.quality = item.quality - 1
     end
   end
 

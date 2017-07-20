@@ -12,15 +12,39 @@ class GildedRose
       when 'Aged Brie'
         AgedBrieRules.new(item).update
       when 'Backstage passes to a TAFKAL80ETC concert'
-        decrease_sell_in(item)
-        update_backstage_quality(item)
+        BackStageRules.new(item).update
       else
-        decrease_sell_in(item)
-        decrease_quality(item)
+        DefaultRules.new(item).update
       end
 
       apply_quality_limit(item)
     end
+  end
+
+  class DefaultRules
+    attr_reader :item
+
+    def initialize(item)
+      @item = item
+    end
+
+    def update
+      decrease_sell_in(item)
+      update_quality(item)
+    end
+
+    def decrease_sell_in(item)
+      item.sell_in = item.sell_in - 1
+    end
+
+    def update_quality(item)
+      if item.sell_in < 0
+        item.quality = item.quality - 2
+      else
+        item.quality = item.quality - 1
+      end
+    end
+
   end
 
   class SulfurasRules
@@ -47,35 +71,31 @@ class GildedRose
     end
   end
 
+  class BackStageRules
+    attr_reader :item
+    def initialize(item)
+      @item = item
+    end
+
+    def update
+      item.sell_in = item.sell_in - 1
+      if item.sell_in < 0
+        item.quality = item.quality - item.quality
+      else
+        item.quality = item.quality + 1
+        # less than 11 days away
+        if item.sell_in < 11
+          item.quality = item.quality + 1
+        end
+        # less than 6 days away
+        if item.sell_in < 6
+          item.quality = item.quality + 1
+        end
+      end
+    end
+  end
+
   private
-
-  def decrease_sell_in(item)
-    item.sell_in = item.sell_in - 1
-  end
-
-  def decrease_quality(item)
-    if item.sell_in < 0
-      item.quality = item.quality - 2
-    else
-      item.quality = item.quality - 1
-    end
-  end
-
-  def update_backstage_quality(item)
-    if item.sell_in < 0
-      item.quality = item.quality - item.quality
-    else
-      item.quality = item.quality + 1
-      # less than 11 days away
-      if item.sell_in < 11
-        item.quality = item.quality + 1
-      end
-      # less than 6 days away
-      if item.sell_in < 6
-        item.quality = item.quality + 1
-      end
-    end
-  end
 
   def apply_quality_limit(item)
     item.quality = [[50, item.quality].min, 0].max

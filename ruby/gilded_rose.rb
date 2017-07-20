@@ -23,12 +23,9 @@ class GildedRose
   def modify_quality(item)
     # decreaes in qaulity if it's an item that decreases with age
     if item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert"
-      # quality is never negative
-      if item.quality > 0
-        # decrease quantity unless it's sulfuras, which never ages
-        if item.name != "Sulfuras, Hand of Ragnaros"
-          item.quality = item.quality - 1
-        end
+      # decrease quantity unless it's sulfuras, which never ages
+      if item.name != "Sulfuras, Hand of Ragnaros"
+        item.quality = item.quality - 1
       end
     else
       # increase by one by default
@@ -51,7 +48,7 @@ class GildedRose
     if item.sell_in < 0
       if item.name != "Aged Brie"
         if item.name != "Backstage passes to a TAFKAL80ETC concert"
-          if item.quality > 0 && item.name != "Sulfuras, Hand of Ragnaros"
+          if item.name != "Sulfuras, Hand of Ragnaros"
             item.quality = item.quality - 1
           end
         else
@@ -65,7 +62,7 @@ class GildedRose
   end
 
   def apply_quality_limit(item)
-    item.quality = 50 if item.quality > 50
+    item.quality = [[50, item.quality].min, 0].max
   end
 end
 

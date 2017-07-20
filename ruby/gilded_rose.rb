@@ -1,22 +1,20 @@
 class GildedRose
-
   def initialize(items)
     @items = items
   end
 
   def update_quality
     @items.each do |item|
-      case item.name
-      when 'Sulfuras, Hand of Ragnaros'
-        SulfurasRules.new(item).update
-      when 'Aged Brie'
-        AgedBrieRules.new(item).update
-      when 'Backstage passes to a TAFKAL80ETC concert'
-        BackStageRules.new(item).update
-      else
-        DefaultRules.new(item).update
-      end
+      class_for(item).new(item).update
     end
+  end
+
+  def class_for(item)
+    {
+      'Sulfuras, Hand of Ragnaros' => SulfurasRules,
+      'Aged Brie' => AgedBrieRules,
+      'Backstage passes to a TAFKAL80ETC concert' => BackStageRules
+    }.fetch(item.name, DefaultRules)
   end
 
   class DefaultRules
@@ -57,7 +55,6 @@ class GildedRose
   end
 
   class AgedBrieRules < DefaultRules
-
     def update_quality
       item.quality = item.quality + 1
     end

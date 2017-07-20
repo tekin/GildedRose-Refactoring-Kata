@@ -14,20 +14,7 @@ class GildedRose
         item.quality = item.quality + 1
       when 'Backstage passes to a TAFKAL80ETC concert'
         item.sell_in = item.sell_in - 1
-
-        if item.sell_in < 0
-          item.quality = item.quality - item.quality
-        else
-          item.quality = item.quality + 1
-          # less than 11 days away
-          if item.sell_in < 11
-            item.quality = item.quality + 1
-          end
-          # less than 6 days away
-          if item.sell_in < 6
-            item.quality = item.quality + 1
-          end
-        end
+        update_backstage_quality(item)
       else
         item.sell_in = item.sell_in - 1
         decrease_quality(item)
@@ -44,6 +31,22 @@ class GildedRose
       item.quality = item.quality - 2
     else
       item.quality = item.quality - 1
+    end
+  end
+
+  def update_backstage_quality(item)
+    if item.sell_in < 0
+      item.quality = item.quality - item.quality
+    else
+      item.quality = item.quality + 1
+      # less than 11 days away
+      if item.sell_in < 11
+        item.quality = item.quality + 1
+      end
+      # less than 6 days away
+      if item.sell_in < 6
+        item.quality = item.quality + 1
+      end
     end
   end
 

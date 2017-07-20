@@ -8,7 +8,7 @@ class GildedRose
     @items.each do |item|
       case item.name
       when 'Sulfuras, Hand of Ragnaros'
-        next
+        SulfurasRules.new(item).update
       when 'Aged Brie'
         AgedBrieRules.new(item).update
       when 'Backstage passes to a TAFKAL80ETC concert'
@@ -20,6 +20,17 @@ class GildedRose
       end
 
       apply_quality_limit(item)
+    end
+  end
+
+  class SulfurasRules
+    attr_reader :item
+
+    def initialize(item)
+      @item = item
+    end
+
+    def update
     end
   end
 

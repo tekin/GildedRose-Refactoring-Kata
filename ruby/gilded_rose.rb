@@ -10,13 +10,13 @@ class GildedRose
       when 'Sulfuras, Hand of Ragnaros'
         next
       when 'Aged Brie'
-        item.sell_in = item.sell_in - 1
+        decrease_sell_in(item)
         item.quality = item.quality + 1
       when 'Backstage passes to a TAFKAL80ETC concert'
-        item.sell_in = item.sell_in - 1
+        decrease_sell_in(item)
         update_backstage_quality(item)
       else
-        item.sell_in = item.sell_in - 1
+        decrease_sell_in(item)
         decrease_quality(item)
       end
 
@@ -25,6 +25,10 @@ class GildedRose
   end
 
   private
+
+  def decrease_sell_in(item)
+    item.sell_in = item.sell_in - 1
+  end
 
   def decrease_quality(item)
     if item.sell_in < 0

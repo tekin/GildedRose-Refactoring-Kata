@@ -23,7 +23,7 @@ class GildedRose
   def modify_quality(item)
 
     # decreaes in qaulity if it's an item that decreases with age
-    if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
+    if item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert"
       # quality is never negative
       if item.quality > 0
         # decrease quantity unless it's sulfuras, which never ages

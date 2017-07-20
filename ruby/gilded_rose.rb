@@ -6,6 +6,8 @@ class GildedRose
 
   def update_quality
     @items.each do |item|
+      next if item.name == "Sulfuras, Hand of Ragnaros"
+
       modify_sell_in(item)
       modify_quality(item)
     end
@@ -14,19 +16,14 @@ class GildedRose
   private
 
   def modify_sell_in(item)
-    # Sulfuras does not age
-    if item.name != "Sulfuras, Hand of Ragnaros"
-      item.sell_in = item.sell_in - 1
-    end
+    item.sell_in = item.sell_in - 1
   end
 
   def modify_quality(item)
     # decreaes in qaulity if it's an item that decreases with age
     if item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert"
-      # decrease quantity unless it's sulfuras, which never ages
-      if item.name != "Sulfuras, Hand of Ragnaros"
-        item.quality = item.quality - 1
-      end
+      # decrease quantity
+      item.quality = item.quality - 1
     else
       # increase by one by default
       item.quality = item.quality + 1
@@ -48,9 +45,7 @@ class GildedRose
     if item.sell_in < 0
       if item.name != "Aged Brie"
         if item.name != "Backstage passes to a TAFKAL80ETC concert"
-          if item.name != "Sulfuras, Hand of Ragnaros"
-            item.quality = item.quality - 1
-          end
+          item.quality = item.quality - 1
         else
           item.quality = item.quality - item.quality
         end

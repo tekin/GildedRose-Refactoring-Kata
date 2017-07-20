@@ -131,15 +131,17 @@ describe GildedRose do
     end
   end
 
-  # "Conjured" items degrade in Quality twice as fast as normal items
-  describe '#update_quality with a Conjured item' do
-    let!(:item) { Item.new('Conjured', 4, 7) }
+  describe '#update_quality with an item with zero quality and sell_in' do
+    let!(:item) { Item.new('foo', 0, 0) }
     let!(:items) { [item] }
     before(:each) { GildedRose.new(items).update_quality }
 
-    it 'degrades in quality twice as fast as normal items' do
-      expect(items[0].sell_in).to eq(3)
-      expect(items[0].quality).to eq(5)
+    it 'does not decrease quality beyond zero' do
+      expect(items[0].quality).to eq 0
+    end
+
+    it 'decreases an item’s sell_in value' do
+      expect(items[0].sell_in).to eq -1
     end
   end
 end

@@ -30,7 +30,7 @@ class GildedRose
         end
       else
         item.sell_in = item.sell_in - 1
-        modify_quality(item)
+        decrease_quality(item)
       end
 
       apply_quality_limit(item)
@@ -39,11 +39,10 @@ class GildedRose
 
   private
 
-  def modify_quality(item)
-    # decrease quantity
-    item.quality = item.quality - 1
-
+  def decrease_quality(item)
     if item.sell_in < 0
+      item.quality = item.quality - 2
+    else
       item.quality = item.quality - 1
     end
   end

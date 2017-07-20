@@ -50,7 +50,7 @@ describe GildedRose do
     let!(:items) { [item] }
     before(:each) { GildedRose.new(items).update_quality }
 
-    it 'increase the quality twice as fast' do
+    it 'increases the quality' do
       expect(items[0].quality).to eq(3)
       expect(items[0].sell_in).to eq(3)
     end

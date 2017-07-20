@@ -9,6 +9,9 @@ class GildedRose
       case item.name
       when 'Sulfuras, Hand of Ragnaros'
         next
+      when 'Aged Brie'
+        item.sell_in = item.sell_in - 1
+        item.quality = item.quality + 1
       else
         item.sell_in = item.sell_in - 1
         modify_quality(item)
@@ -22,7 +25,7 @@ class GildedRose
 
   def modify_quality(item)
     # decreaes in qaulity if it's an item that decreases with age
-    if item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert"
+    if item.name != "Backstage passes to a TAFKAL80ETC concert"
       # decrease quantity
       item.quality = item.quality - 1
     else
@@ -44,14 +47,10 @@ class GildedRose
 
     # Passed the sell by date: maturing items get more love; backstage gets none
     if item.sell_in < 0
-      if item.name != "Aged Brie"
-        if item.name != "Backstage passes to a TAFKAL80ETC concert"
-          item.quality = item.quality - 1
-        else
-          item.quality = item.quality - item.quality
-        end
+      if item.name != "Backstage passes to a TAFKAL80ETC concert"
+        item.quality = item.quality - 1
       else
-        item.quality = item.quality + 1
+        item.quality = item.quality - item.quality
       end
     end
   end
